@@ -16,20 +16,18 @@ const AdminPanel = () => {
   return (
     <div className="admin-layout">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <h2 className="logo">SafeLink</h2>
-        <ul className="menu">
-          <li className="active">Dashboard</li>
-          <li onClick={() => navigate("/report")}>Report Incident</li>
-          <li>Live Alerts</li>
-          <li>Safe Routes</li>
-          <li>Emergency Contacts</li>
-          <li>Community Support</li>
-          <li>Settings</li>
-          <li onClick={() => navigate("/login")}>Logout</li>
-        </ul>
-      </aside>
-
+   <aside className="sidebar">
+  <h2 className="logo">SafetyApp</h2>
+  <ul className="menu">
+    <li className="active">Dashboard</li>
+    <li onClick={() => navigate("/report")}>Report Incident</li>
+    <li>Live News</li>
+    <li>Safe Routes</li>
+    <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
+    <li onClick={() => navigate("/settings")}>Settings</li>  {/* ✅ Updated */}
+    <li onClick={() => navigate("/login")}>Logout</li>
+  </ul>
+</aside>
       {/* Main Content */}
       <div className="admin-content">
         {/* Profile Header */}

@@ -10,6 +10,8 @@ import SOS from "./pages/SOS";
 import AdminPanel from "./pages/AdminPanel";
 import FullMap from "./pages/FullMap"; // <- import the new full map page
 import ProtectedRoute from "./components/ProtectedRoute";
+import Settings from "./pages/Settings";   // ✅ added
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        
 
         <Route
           path="/dashboard"
@@ -43,6 +46,16 @@ function App() {
           element={
             <ProtectedRoute>
               <SOS />
+            </ProtectedRoute>
+          }
+        />
+
+         {/* ✅ Settings Route */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />

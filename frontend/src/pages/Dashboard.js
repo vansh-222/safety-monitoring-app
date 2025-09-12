@@ -4,11 +4,11 @@ import api from "../utils/api";
 import MapComponent from "../components/MapComponent";
 import "./dashboard.css";
 
+
 const Dashboard = () => {
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
 
   // Fetch incidents from backend
   useEffect(() => {
@@ -28,20 +28,20 @@ const Dashboard = () => {
   return (
     <div>
       <div className="dashboard-container">
-        {/* Sidebar */}
-        <aside className="sidebar">
-          <h2 className="logo">SafeLink</h2>
-          <ul className="menu">
-            <li className="active">Dashboard</li>
-            <li onClick={() => navigate("/report")}>Report Incident</li>
-            <li>Live Alerts</li>
-            <li>Safe Routes</li>
-            <li>Emergency Contacts</li>
-            <li>Community Support</li>
-            <li>Settings</li>
-            <li onClick={() => navigate("/login")}>Logout</li>
-          </ul>
-        </aside>
+  {/* Sidebar */}
+<aside className="sidebar">
+  <h2 className="logo">SafetyApp</h2>
+  <ul className="menu">
+    <li className="active">Dashboard</li>
+    <li onClick={() => navigate("/report")}>Report Incident</li>
+    <li>Live News</li>
+    <li>Safe Routes</li>
+    <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
+    <li onClick={() => navigate("/settings")}>Settings</li>  {/* ✅ Updated */}
+    <li onClick={() => navigate("/login")}>Logout</li>
+  </ul>
+</aside>
+
 
         {/* Main Content */}
         <main className="main-content">
@@ -72,8 +72,10 @@ const Dashboard = () => {
             <div className="hero-text">
               <h1>Stay Safe, Stay Connected</h1>
               <p>
-                From real-time safety alerts to easy incident reporting and a supportive community network, <br></br>
-                Our platform ensures that you are never alone — your digital safety companion,  ready to protect you wherever you are.
+                From real-time safety alerts to easy incident reporting and a supportive
+                community network, <br />
+                Our platform ensures that you are never alone — your digital safety
+                companion, ready to protect you wherever you are.
               </p>
               <div className="hero-buttons">
                 <button
@@ -86,10 +88,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="hero-image">
-              <img
-                src="1.png"
-                alt="safety"
-              />
+              <img src="1.png" alt="safety" />
             </div>
           </section>
 
@@ -124,7 +123,6 @@ const Dashboard = () => {
               </div>
             </div>
           </section>
-
 
           {/* Map Section */}
           <section className="map-section">
@@ -164,71 +162,96 @@ const Dashboard = () => {
                 incidents.slice(0, 3).map((inc) => (
                   <div
                     key={inc._id}
-                    className={`alert-item ${inc.status === "Resolved"
-                      ? "green"
-                      : inc.type === "Road Closure"
+                    className={`alert-item ${
+                      inc.status === "Resolved"
+                        ? "green"
+                        : inc.type === "Road Closure"
                         ? "red"
                         : "orange"
-                      }`}
+                    }`}
                   >
                     <div className="alert-info">
                       <div className="alert-type">{inc.type}</div>
                       <div className="alert-status">{inc.status || "Pending"}</div>
                     </div>
                     <div className="alert-time">
-                      {new Date(inc.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(inc.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </div>
                   </div>
                 ))}
             </div>
           </section>
 
-          <section class="community-section">
-            <div class="trusted">
+          {/* Community Section */}
+          <section className="community-section">
+            <div className="trusted">
               <h2>Trusted by the Community</h2>
               <p>Growing network of vigilant users</p>
 
-              <div class="stats-container">
-                <div class="stat-box">
+              <div className="stats-container">
+                <div className="stat-box">
                   <h3>120,482</h3>
                   <span>ACTIVE USERS</span>
                 </div>
-                <div class="stat-box">
+                <div className="stat-box">
                   <h3>58,930</h3>
                   <span>REPORTS SUBMITTED</span>
                 </div>
-                <div class="stat-box">
+                <div className="stat-box">
                   <h3>44,715</h3>
                   <span>ALERTS RESOLVED</span>
                 </div>
               </div>
             </div>
-            <div class="testimonials">
+            <div className="testimonials">
               <h2>What People Say</h2>
               <p>Real stories from our users</p>
-              <div class="testimonial-cards">
-                <div class="card">
-                  <p>"The live alerts helped me avoid a dangerous area on my commute. Invaluable!"</p>
-                  <h4>Alex Johnson <span>- Commuter</span></h4>
+              <div className="testimonial-cards">
+                <div className="card">
+                  <p>
+                    "The live alerts helped me avoid a dangerous area on my
+                    commute. Invaluable!"
+                  </p>
+                  <h4>
+                    Alex Johnson <span>- Commuter</span>
+                  </h4>
                 </div>
-                <div class="card">
-                  <p>"Reporting an incident was quick and easy. The community support is amazing."</p>
-                  <h4>Priya Patel <span>- Student</span></h4>
+                <div className="card">
+                  <p>
+                    "Reporting an incident was quick and easy. The community
+                    support is amazing."
+                  </p>
+                  <h4>
+                    Priya Patel <span>- Student</span>
+                  </h4>
                 </div>
-                <div class="card">
-                  <p>"Safe routes made late-night walks feel much safer. Highly recommend."</p>
-                  <h4>Marcus Lee <span>- Resident</span></h4>
+                <div className="card">
+                  <p>
+                    "Safe routes made late-night walks feel much safer. Highly
+                    recommend."
+                  </p>
+                  <h4>
+                    Marcus Lee <span>- Resident</span>
+                  </h4>
                 </div>
               </div>
             </div>
           </section>
         </main>
       </div>
+
+      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
             <h2>SafeGuard</h2>
-            <p>Your trusted safety companion for alerts, reporting, and secure routes.</p>
+            <p>
+              Your trusted safety companion for alerts, reporting, and secure
+              routes.
+            </p>
           </div>
           <div className="footer-links">
             <h3>Quick Links</h3>
@@ -259,4 +282,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
