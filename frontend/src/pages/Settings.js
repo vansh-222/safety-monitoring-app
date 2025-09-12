@@ -15,8 +15,7 @@ const SettingsPage = () => {
           <li onClick={() => navigate("/report")}>Report Incident</li>
           <li onClick={() => navigate("/alerts")}>Live Alerts</li>
           <li onClick={() => navigate("/routes")}>Safe Routes</li>
-          <li onClick={() => navigate("/contacts")}>Emergency Contacts</li>
-          <li onClick={() => navigate("/community")}>Community Support</li>
+          <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
           <li className="active" onClick={() => navigate("/settings")}>
             Settings
           </li>

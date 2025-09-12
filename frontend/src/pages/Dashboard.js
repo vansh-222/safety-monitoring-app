@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import MapComponent from "../components/MapComponent";
 import "./dashboard.css";
-
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { user } = useAuth;
 
   // Fetch incidents from backend
   useEffect(() => {
@@ -47,7 +48,7 @@ const Dashboard = () => {
         <main className="main-content">
           {/* Topbar */}
           <header className="topbar">
-            <span className="app-title">Hey, Vansh</span>
+            <span className="app-title">Hey, {user?.name ?? 'Guest'}</span>
             <div className="dashboard-search">
               <input
                 type="text"

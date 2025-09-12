@@ -14,7 +14,7 @@ router.post("/", auth, async (req, res) => {
       user: req.user.id,
       type,
       description,
-      location: location || {}, // { lat, lng }
+      location: location || {},
       status: "Pending"
     });
 

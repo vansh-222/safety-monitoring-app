@@ -17,7 +17,11 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/" className="logo">
-          🚨 SafetyApp
+       <img
+                src="./logo-main.png"
+                alt="profile"
+                className="logo-pic"
+              />
         </Link>
       </div>
 
