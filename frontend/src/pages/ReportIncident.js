@@ -24,53 +24,46 @@ const ReportIncident = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("title", form.title);
-      formData.append("type", form.type);
-      formData.append("description", form.description);
-      formData.append("dateTime", form.dateTime);
-      formData.append(
-        "location",
-        JSON.stringify({
-          lat: parseFloat(form.lat),
-          lng: parseFloat(form.lng),
-        })
-      );
-      if (form.evidence) {
-        formData.append("evidence", form.evidence);
-      }
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await api.post("/api/incidents", {
+      title: form.title,
+      type: form.type,
+      description: form.description,
+      dateTime: form.dateTime,
+      location: {
+        lat: parseFloat(form.lat),
+        lng: parseFloat(form.lng),
+      },
+    });
 
-      await api.post("/api/incidents", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    alert("Incident reported successfully");
+    navigate("/dashboard");
+  } catch (err) {
+    const msg =
+      err?.response?.data?.message || err.message || "Failed to report";
+    alert(msg);
+  }
+};
 
-      alert("Incident reported successfully");
-      navigate("/dashboard");
-    } catch (err) {
-      const msg =
-        err?.response?.data?.message || err.message || "Failed to report";
-      alert(msg);
-    }
-  };
 
   return (
     <div className="admin-layout">
       {/* Sidebar */}
-    <aside className="sidebar">
-  <h2 className="logo">SafetyApp</h2>
-  <ul className="menu">
-    <li className="active">Dashboard</li>
-    <li onClick={() => navigate("/report")}>Report Incident</li>
-    <li>Live News</li>
-    <li>Safe Routes</li>
-    <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
-    <li onClick={() => navigate("/settings")}>Settings</li>  {/* ✅ Updated */}
-    <li onClick={() => navigate("/login")}>Logout</li>
-  </ul>
-</aside>
+      <aside className="sidebar">
+        <h2 className="logo">SafetyApp</h2>
+        <ul className="menu">
+          <li className="active">Dashboard</li>
+          <li onClick={() => navigate("/report")}>Report Incident</li>
+          <li>Live News</li>
+          <li>Safe Routes</li>
+          <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
+          <li onClick={() => navigate("/settings")}>Settings</li>{" "}
+          {/* ✅ Updated */}
+          <li onClick={() => navigate("/login")}>Logout</li>
+        </ul>
+      </aside>
 
       {/* Main Content */}
       <div className="admin-content">
