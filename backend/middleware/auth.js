@@ -4,12 +4,20 @@ const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
   try {
     let token = req.header("Authorization");
-    if (!token) return res.status(401).json({ message: "No token, authorization denied" });
+    if (!token) {
+      return res.status(401).json({ message: "No token, authorization denied" });
+    }
 
     // Accept "Bearer <token>" or raw token
     if (token.startsWith("Bearer ")) token = token.slice(7).trim();
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // ✅ strict expiry check
+    if (decoded.exp * 1000 < Date.now()) {
+      return res.status(401).json({ message: "Token expired, please login again" });
+    }
+
     // decoded should contain the payload we signed (id, email, name)
     req.user = decoded; // e.g. { id, email, name, iat, exp }
     return next();
@@ -18,3 +26,4 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: "Token is not valid" });
   }
 };
+

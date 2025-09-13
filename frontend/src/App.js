@@ -1,27 +1,33 @@
 // src/App.js
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./components/navbar";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import Navbar from "./components/navbar"; 
+import PublicNavbar from "./components/PublicNavbar";  // ✅ new
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ReportIncident from "./pages/ReportIncident";
 import SOS from "./pages/SOS";
 import AdminPanel from "./pages/AdminPanel";
-import FullMap from "./pages/FullMap"; // <- import the new full map page
+import FullMap from "./pages/FullMap";
+import Settings from "./pages/Settings";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Settings from "./pages/Settings";   // ✅ added
-
+import Chatbot from "./pages/Chatbot";
 
 function App() {
+  const location = useLocation();
+
+  // Show public navbar only on login/signup
+  const isAuthPage = ["/login", "/signup"].includes(location.pathname);
+
   return (
     <>
-      <Navbar />
+      {isAuthPage ? <PublicNavbar /> : <Navbar />}
+
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        
 
         <Route
           path="/dashboard"
@@ -41,6 +47,18 @@ function App() {
           }
         />
 
+        
+        {/* other routes */}
+        <Route 
+          path="/chatbot" 
+          element={
+            <ProtectedRoute>
+              <Chatbot />
+            </ProtectedRoute>
+          } 
+        />
+      
+
         <Route
           path="/sos"
           element={
@@ -50,7 +68,6 @@ function App() {
           }
         />
 
-         {/* ✅ Settings Route */}
         <Route
           path="/settings"
           element={
@@ -69,7 +86,6 @@ function App() {
           }
         />
 
-        {/* New Full Map Route */}
         <Route
           path="/full-map"
           element={

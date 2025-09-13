@@ -10,6 +10,7 @@ dotenv.config();
 const authRoutes = require("./routes/auth");
 const incidentRoutes = require("./routes/incidents");
 const sosRoutes = require("./routes/sos");
+const chatbotRoute = require("./routes/chatbot");
 
 const app = express();
 app.use(cors());
@@ -30,6 +31,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/incidents", incidentRoutes);
 app.use("/api/sos", sosRoutes);
+app.use("/api/chatbot", chatbotRoute);
 
 
 

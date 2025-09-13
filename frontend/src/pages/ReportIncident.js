@@ -58,18 +58,17 @@ const ReportIncident = () => {
   return (
     <div className="admin-layout">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <h2 className="logo">Safion</h2>
-        <ul className="menu">
-          <li className="active">{t("dashboard")}</li>
-          <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
-          <li>{t("live_news")}</li>
-          <li>{t("safe_routes")}</li>
-          <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
-          <li onClick={() => navigate("/settings")}>{t("settings")}</li>
-          <li onClick={() => navigate("/login")}>{t("logout")}</li>
-        </ul>
-      </aside>
+       <aside className="sidebar">
+          <h2 className="logo">Safion</h2>
+          <ul className="menu">
+            <li className="active">{t("dashboard")}</li>
+            <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
+           <li onClick={() => navigate("/chatbot")}>{t("AI Assistant")}</li>
+            <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
+            <li onClick={() => navigate("/settings")}>{t("settings")}</li>
+            <li onClick={() => navigate("/login")}>{t("logout")}</li>
+          </ul>
+        </aside>
 
       {/* Main Content */}
       <div className="admin-content">

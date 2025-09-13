@@ -22,7 +22,7 @@ function parseJwt(token) {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // { id, email, name, exp } or null
+  const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,24 +30,20 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       api.defaults.headers.common["Authorization"] = token;
       const decoded = parseJwt(token);
-      if (decoded) {
-        // token expiry check (exp is in seconds)
-        if (decoded.exp && decoded.exp * 1000 < Date.now()) {
-          // expired
-          localStorage.removeItem("token");
-          delete api.defaults.headers.common["Authorization"];
-          setUser(null);
-        } else {
-          setUser({
-            id: decoded.id || decoded._id || null,
-            email: decoded.email || null,
-            name: decoded.name || null,
-            exp: decoded.exp || null,
-          });
-        }
+
+      if (decoded && decoded.exp && decoded.exp * 1000 > Date.now()) {
+        // ✅ valid token
+        setUser({
+          id: decoded.id || decoded._id || null,
+          email: decoded.email || null,
+          name: decoded.name || null,
+          exp: decoded.exp || null,
+        });
       } else {
+        // ❌ invalid or expired → clear it
         localStorage.removeItem("token");
         delete api.defaults.headers.common["Authorization"];
+        setUser(null);
       }
     }
     setLoading(false);
@@ -57,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", token);
     api.defaults.headers.common["Authorization"] = token;
     const decoded = parseJwt(token);
-    if (decoded) {
+    if (decoded && decoded.exp && decoded.exp * 1000 > Date.now()) {
       setUser({
         id: decoded.id || decoded._id || null,
         email: decoded.email || null,
@@ -65,6 +61,9 @@ export const AuthProvider = ({ children }) => {
         exp: decoded.exp || null,
       });
     } else {
+      // if invalid, clear immediately
+      localStorage.removeItem("token");
+      delete api.defaults.headers.common["Authorization"];
       setUser(null);
     }
   };

@@ -15,8 +15,7 @@ const SettingsPage = () => {
           <ul className="menu">
             <li className="active">{t("dashboard")}</li>
             <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
-            <li>{t("live_news")}</li>
-            <li>{t("safe_routes")}</li>
+           <li onClick={() => navigate("/chatbot")}>{t("AI Assistant")}</li>
             <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
             <li onClick={() => navigate("/settings")}>{t("settings")}</li>
             <li onClick={() => navigate("/login")}>{t("logout")}</li>
