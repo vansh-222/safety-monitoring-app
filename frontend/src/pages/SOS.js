@@ -1,32 +1,28 @@
 import React, { useState } from "react";
 import api from "../utils/api";
+import { useTranslation } from "react-i18next";
 import "./SOS.css";
 
 const helplines = [
-  { name: "Police", number: "100", description: "Emergency police assistance" },
-  { name: "Ambulance", number: "102", description: "Medical emergencies" },
-  { name: "Fire Brigade", number: "101", description: "Fire emergencies" },
-  { name: "Women Helpline", number: "1091", description: "Support for women" },
-  { name: "Disaster Management", number: "108", description: "Natural disasters" },
+  { key: "police", number: "100", descriptionKey: "police_desc" },
+  { key: "ambulance", number: "102", descriptionKey: "ambulance_desc" },
+  { key: "fire_brigade", number: "101", descriptionKey: "fire_brigade_desc" },
+  { key: "women_helpline", number: "1091", descriptionKey: "women_helpline_desc" },
+  { key: "disaster_mgmt", number: "108", descriptionKey: "disaster_mgmt_desc" },
 ];
 
 const SOS = () => {
-  const [sending, setSending] = useState(false);
+  const { t } = useTranslation();
+  const [sending, setSending] = useState(false); 
 
   const handleSOS = () => {
-    if (!window.confirm("Send SOS now? This will notify your emergency contacts.")) return;
+    if (!window.confirm(t("sos_confirm"))) return;
     setSending(true);
 
-    // Get geolocation and send SOS
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          sendSOS({ lat: position.coords.latitude, lng: position.coords.longitude });
-        },
-        () => {
-          // If geolocation denied or fails
-          sendSOS({ lat: null, lng: null });
-        }
+        (position) => sendSOS({ lat: position.coords.latitude, lng: position.coords.longitude }),
+        () => sendSOS({ lat: null, lng: null })
       );
     } else {
       sendSOS({ lat: null, lng: null });
@@ -35,14 +31,11 @@ const SOS = () => {
 
   const sendSOS = async (location) => {
     try {
-      await api.post("/api/sos", {
-        message: "I need help!",
-        location,
-      });
-      alert("SOS sent successfully!");
+      await api.post("/api/sos", { message: t("sos_message"), location });
+      alert(t("sos_success"));
     } catch (err) {
       console.error(err);
-      alert(err?.response?.data?.message || "Failed to send SOS");
+      alert(err?.response?.data?.message || t("sos_fail"));
     } finally {
       setSending(false);
     }
@@ -50,31 +43,29 @@ const SOS = () => {
 
   return (
     <div className="sos-container">
-      <h1>Emergency SOS</h1>
-      <p className="description">
-        Press the button below to send your location and emergency alert.
-      </p>
+      <h1>{t("sos_title")}</h1>
+      <p className="description">{t("sos_desc")}</p>
 
       <div className="sos-button-container">
         <button className="sos-button" onClick={handleSOS} disabled={sending}>
-          {sending ? "Sending..." : "Send SOS"}
+          {sending ? t("sending") : t("send_sos")}
         </button>
       </div>
 
       <div className="helpline-section">
-        <h2>Important Helplines</h2>
+        <h2>{t("important_helplines")}</h2>
         <div className="helpline-cards">
-          {helplines.map((line, index) => (
-            <div key={index} className="helpline-card">
-              <h3>{line.name}</h3>
-              <p>{line.description}</p>
+          {helplines.map((line) => (
+            <div key={line.key} className="helpline-card">
+              <h3>{t(line.key)}</h3>
+              <p>{t(line.descriptionKey)}</p>
               <p>
                 {line.number}
                 <button
                   className="copy-button"
                   onClick={() => navigator.clipboard.writeText(line.number)}
                 >
-                  Copy
+                  {t("copy")}
                 </button>
               </p>
             </div>

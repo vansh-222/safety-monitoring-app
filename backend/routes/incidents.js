@@ -1,21 +1,41 @@
 // routes/incidents.js
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const Incident = require("../models/Incident");
 const auth = require("../middleware/auth");
 
+// Configure Multer (store files in /uploads)
+const upload = multer({ dest: "uploads/" });
+
 // POST /api/incidents (create incident)
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, upload.single("evidence"), async (req, res) => {
   try {
-    const { type, description, location } = req.body;
-    if (!type) return res.status(400).json({ message: "Type is required" });
+    // If multipart/form-data => multer fills req.body + req.file
+    // If JSON => express.json() fills req.body
+    const { type, description, location, title, dateTime } = req.body || {};
+
+    if (!type) {
+      return res.status(400).json({ message: "Type is required" });
+    }
+
+    let parsedLocation = {};
+    try {
+      // If location is stringified JSON (from FormData)
+      parsedLocation = location ? JSON.parse(location) : {};
+    } catch (e) {
+      parsedLocation = location || {};
+    }
 
     const inc = new Incident({
       user: req.user.id,
+      title: title || "Untitled",
       type,
       description,
-      location: location || {}, // { lat, lng }
-      status: "Pending"
+      location: parsedLocation, // { lat, lng }
+      dateTime: dateTime || new Date(),
+      evidencePath: req.file ? req.file.path : null,
+      status: "Pending",
     });
 
     await inc.save();

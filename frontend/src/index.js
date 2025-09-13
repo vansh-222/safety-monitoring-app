@@ -1,5 +1,6 @@
 // src/index.js
 import React from "react";
+import "./i18n";   // ✅ load multilingual support
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";

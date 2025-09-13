@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import MapComponent from "../components/MapComponent";
 import "./dashboard.css";
-
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // Fetch incidents from backend
   useEffect(() => {
@@ -28,35 +29,37 @@ const Dashboard = () => {
   return (
     <div>
       <div className="dashboard-container">
-  {/* Sidebar */}
-<aside className="sidebar">
-  <h2 className="logo">SafetyApp</h2>
-  <ul className="menu">
-    <li className="active">Dashboard</li>
-    <li onClick={() => navigate("/report")}>Report Incident</li>
-    <li>Live News</li>
-    <li>Safe Routes</li>
-    <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
-    <li onClick={() => navigate("/settings")}>Settings</li>  {/* ✅ Updated */}
-    <li onClick={() => navigate("/login")}>Logout</li>
-  </ul>
-</aside>
+        {/* Sidebar */}
+        <aside className="sidebar">
+          <h2 className="logo">Safion</h2>
+          <ul className="menu">
+            <li className="active">{t("dashboard")}</li>
+            <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
+            <li>{t("live_news")}</li>
+            <li>{t("safe_routes")}</li>
+            <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
+            <li onClick={() => navigate("/settings")}>{t("settings")}</li>
+            <li onClick={() => navigate("/login")}>{t("logout")}</li>
+          </ul>
+        </aside>
 
-
-        {/* Main Content */}
         <main className="main-content">
           {/* Topbar */}
           <header className="topbar">
-            <span className="app-title">Hey, Vansh</span>
+            {/* Greeting with dynamic name */}
+            <span className="app-title">{t("greeting", { name: "Vansh" })}</span>
+
+            {/* Search bar */}
             <div className="dashboard-search">
               <input
                 type="text"
-                placeholder="Search incidents, alerts, or safe routes..."
+                placeholder={t("search_placeholder")} // "Search for incidents, alerts, or safe routes..."
                 className="search-input"
               />
-              <button className="search-btn">Search</button>
+              <button className="search-btn">{t("search")}</button> 
             </div>
 
+            {/* Profile and notifications */}
             <div className="profile">
               <span className="bell">🔔</span>
               <img
@@ -70,21 +73,16 @@ const Dashboard = () => {
           {/* Hero Section */}
           <section className="hero">
             <div className="hero-text">
-              <h1>Stay Safe, Stay Connected</h1>
-              <p>
-                From real-time safety alerts to easy incident reporting and a supportive
-                community network, <br />
-                Our platform ensures that you are never alone — your digital safety
-                companion, ready to protect you wherever you are.
-              </p>
+              <h1>{t("hero_title")}</h1>
+              <p>{t("hero_description")}</p>
               <div className="hero-buttons">
                 <button
                   className="btn-primary"
                   onClick={() => navigate("/report")}
                 >
-                  Get Started
+                  {t("get_started")}
                 </button>
-                <button className="btn-secondary">Learn More</button>
+                <button className="btn-secondary">{t("learn_more")}</button>
               </div>
             </div>
             <div className="hero-image">
@@ -94,43 +92,43 @@ const Dashboard = () => {
 
           {/* Tools Section */}
           <section className="tools">
-            <h2 className="tools-title">Powerful Safety Tools</h2>
-            <p className="tools-subtitle">Everything you need for peace of mind</p>
+            <h2 className="tools-title">{t("tools_title")}</h2>
+            <p className="tools-subtitle">{t("tools_subtitle")}</p>
 
             <div className="tool-grid">
               <div className="tool-card">
                 <div className="tool-icon">📌</div>
-                <h3>Report Incident</h3>
-                <p>Submit detailed reports with media and location.</p>
+                <h3>{t("report_incident")}</h3>
+                <p>{t("report_incident_desc")}</p>
               </div>
 
               <div className="tool-card">
                 <div className="tool-icon">🔔</div>
-                <h3>Live Safety Alerts</h3>
-                <p>Receive real-time notifications and updates.</p>
+                <h3>{t("live_alerts")}</h3>
+                <p>{t("live_alerts_desc")}</p>
               </div>
 
               <div className="tool-card">
                 <div className="tool-icon">📞</div>
-                <h3>Emergency Contacts</h3>
-                <p>Quick-dial trusted contacts and local services.</p>
+                <h3>{t("emergency_contacts")}</h3>
+                <p>{t("emergency_contacts_desc")}</p>
               </div>
 
               <div className="tool-card">
                 <div className="tool-icon">🛣️</div>
-                <h3>Safe Routes</h3>
-                <p>Explore recommended routes based on current data.</p>
+                <h3>{t("safe_routes")}</h3>
+                <p>{t("safe_routes_desc")}</p>
               </div>
             </div>
           </section>
 
           {/* Map Section */}
           <section className="map-section">
-            <h2>Interactive Map Preview</h2>
-            <p>See safety insights around you</p>
+            <h2>{t("map_title")}</h2>
+            <p>{t("map_subtitle")}</p>
             <div className="map-box">
               {loading ? (
-                <div>Loading map...</div>
+                <div>{t("loading_map")}</div>
               ) : (
                 <MapComponent
                   incidents={incidents}
@@ -142,37 +140,36 @@ const Dashboard = () => {
                 onClick={() => navigate("/full-map")}
                 style={{ marginTop: "10px" }}
               >
-                Open Full Map
+                {t("open_full_map")}
               </button>
             </div>
           </section>
 
-          {/* Nearby Alerts Section */}
+          {/* Alerts Section */}
           <section className="alerts-section">
             <div className="alerts-header">
-              <h2>Nearby Alerts</h2>
-              <p>Stay updated with real-time incident reports</p>
+              <h2>{t("nearby_alerts")}</h2>
+              <p>{t("nearby_alerts_desc")}</p>
             </div>
             <div className="alerts-list">
-              {loading && <div className="loading">Loading alerts...</div>}
+              {loading && <div className="loading">{t("loading_alerts")}</div>}
               {!loading && incidents.length === 0 && (
-                <div className="no-alerts">No incidents reported yet</div>
+                <div className="no-alerts">{t("no_alerts")}</div>
               )}
               {!loading &&
                 incidents.slice(0, 3).map((inc) => (
                   <div
                     key={inc._id}
-                    className={`alert-item ${
-                      inc.status === "Resolved"
+                    className={`alert-item ${inc.status === "Resolved"
                         ? "green"
                         : inc.type === "Road Closure"
-                        ? "red"
-                        : "orange"
-                    }`}
+                          ? "red"
+                          : "orange"
+                      }`}
                   >
                     <div className="alert-info">
                       <div className="alert-type">{inc.type}</div>
-                      <div className="alert-status">{inc.status || "Pending"}</div>
+                      <div className="alert-status">{inc.status || t("pending")}</div>
                     </div>
                     <div className="alert-time">
                       {new Date(inc.createdAt).toLocaleTimeString([], {
@@ -188,54 +185,39 @@ const Dashboard = () => {
           {/* Community Section */}
           <section className="community-section">
             <div className="trusted">
-              <h2>Trusted by the Community</h2>
-              <p>Growing network of vigilant users</p>
+              <h2>{t("trusted_title")}</h2>
+              <p>{t("trusted_desc")}</p>
 
               <div className="stats-container">
                 <div className="stat-box">
                   <h3>120,482</h3>
-                  <span>ACTIVE USERS</span>
+                  <span>{t("active_users")}</span>
                 </div>
                 <div className="stat-box">
                   <h3>58,930</h3>
-                  <span>REPORTS SUBMITTED</span>
+                  <span>{t("reports_submitted")}</span>
                 </div>
                 <div className="stat-box">
                   <h3>44,715</h3>
-                  <span>ALERTS RESOLVED</span>
+                  <span>{t("alerts_resolved")}</span>
                 </div>
               </div>
             </div>
             <div className="testimonials">
-              <h2>What People Say</h2>
-              <p>Real stories from our users</p>
+              <h2>{t("testimonials_title")}</h2>
+              <p>{t("testimonials_desc")}</p>
               <div className="testimonial-cards">
                 <div className="card">
-                  <p>
-                    "The live alerts helped me avoid a dangerous area on my
-                    commute. Invaluable!"
-                  </p>
-                  <h4>
-                    Alex Johnson <span>- Commuter</span>
-                  </h4>
+                  <p>{t("testimonial1")}</p>
+                  <h4>Alex Johnson <span>- {t("commuter")}</span></h4>
                 </div>
                 <div className="card">
-                  <p>
-                    "Reporting an incident was quick and easy. The community
-                    support is amazing."
-                  </p>
-                  <h4>
-                    Priya Patel <span>- Student</span>
-                  </h4>
+                  <p>{t("testimonial2")}</p>
+                  <h4>Priya Patel <span>- {t("student")}</span></h4>
                 </div>
                 <div className="card">
-                  <p>
-                    "Safe routes made late-night walks feel much safer. Highly
-                    recommend."
-                  </p>
-                  <h4>
-                    Marcus Lee <span>- Resident</span>
-                  </h4>
+                  <p>{t("testimonial3")}</p>
+                  <h4>Marcus Lee <span>- {t("resident")}</span></h4>
                 </div>
               </div>
             </div>
@@ -247,25 +229,22 @@ const Dashboard = () => {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <h2>SafeGuard</h2>
-            <p>
-              Your trusted safety companion for alerts, reporting, and secure
-              routes.
-            </p>
+            <h2>Safion</h2>
+            <p>{t("footer_desc")}</p>
           </div>
           <div className="footer-links">
-            <h3>Quick Links</h3>
+            <h3>{t("quick_links")}</h3>
             <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Report Incident</a></li>
-              <li><a href="#">Safety Alerts</a></li>
-              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">{t("home")}</a></li>
+              <li><a href="#">{t("report_incident")}</a></li>
+              <li><a href="#">{t("safety_alerts")}</a></li>
+              <li><a href="#">{t("contact_us")}</a></li>
             </ul>
           </div>
           <div className="footer-contact">
-            <h3>Contact</h3>
-            <p>Email: support@safeguard.com</p>
-            <p>Phone: +91 98765 43210</p>
+            <h3>{t("contact")}</h3>
+            <p>{t("email")}: support@safeguard.com</p>
+            <p>{t("phone")}: +91 98765 43210</p>
             <div className="social-icons">
               <a href="#"><i className="fab fa-facebook"></i></a>
               <a href="#"><i className="fab fa-twitter"></i></a>
@@ -274,7 +253,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2025 SafeGuard. All Rights Reserved.</p>
+          <p>© 2025 Safion. {t("rights_reserved")}</p>
         </div>
       </footer>
     </div>

@@ -65,20 +65,45 @@ body, html {
   background: #1e40af;
 }
 
-/* Logout button */
-.logout-btn {
-  background: #ef4444;
-  color: #fff;
-  padding: 6px 14px;
-  border: none;
-  margin-right: 50px;
-  border-radius: 6px;
+/* Language dropdown */
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 40px;
+}
+
+.dropdown-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-.logout-btn:hover {
-  background: #b91c1c;
+.dropdown-list {
+  list-style: none; /* ✅ removes the default dots */
+  padding: 0;       /* remove default padding */
+  margin: 0; /* remove default margin */  
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100px;
+  max-height: 150px; /* scrollable height */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-top: 5px;
+  z-index: 100;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.dropdown-list li {
+  padding: 8px 10px;
+  cursor: pointer;
+   text-decoration: none;
+}
 
+.dropdown-list li:hover {
+  background-color: #f0f0f0;
+}

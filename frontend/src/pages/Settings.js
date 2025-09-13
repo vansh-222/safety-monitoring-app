@@ -1,49 +1,46 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Settings.css";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="settings-container">
       {/* Sidebar */}
-      <aside className="sidebar">
-        <h2 className="logo">SafeLink</h2>
-        <ul className="menu">
-          <li onClick={() => navigate("/dashboard")}>Dashboard</li>
-          <li onClick={() => navigate("/report")}>Report Incident</li>
-          <li onClick={() => navigate("/alerts")}>Live Alerts</li>
-          <li onClick={() => navigate("/routes")}>Safe Routes</li>
-          <li onClick={() => navigate("/contacts")}>Emergency Contacts</li>
-          <li onClick={() => navigate("/community")}>Community Support</li>
-          <li className="active" onClick={() => navigate("/settings")}>
-            Settings
-          </li>
-          <li onClick={() => navigate("/login")}>Logout</li>
-        </ul>
-      </aside>
+       <aside className="sidebar">
+          <h2 className="logo">Safion</h2>
+          <ul className="menu">
+            <li className="active">{t("dashboard")}</li>
+            <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
+            <li>{t("live_news")}</li>
+            <li>{t("safe_routes")}</li>
+            <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
+            <li onClick={() => navigate("/settings")}>{t("settings")}</li>
+            <li onClick={() => navigate("/login")}>{t("logout")}</li>
+          </ul>
+        </aside>
 
       {/* Main Settings Page */}
       <main className="settings-main">
         <div className="settings-topbar">
-          <h1>Security Settings</h1>
-          <p>
-            Manage password, Two-Factor Authentication and trusted devices.
-          </p>
+          <h1>{t("security_settings")}</h1>
+          <p>{t("security_settings_desc")}</p>
         </div>
 
         {/* Password Section */}
         <section className="settings-card">
-          <h2>Password</h2>
-          <p>Set a strong, unique password.</p>
-          <button className="btn">Reset Password</button>
+          <h2>{t("password")}</h2>
+          <p>{t("password_desc")}</p>
+          <button className="btn">{t("reset_password")}</button>
         </section>
 
         {/* Two-Factor Authentication */}
         <section className="settings-card">
-          <h2>Two-Factor Authentication</h2>
-          <p>Add an extra layer of security to your account.</p>
+          <h2>{t("two_factor_auth")}</h2>
+          <p>{t("two_factor_desc")}</p>
           <label className="toggle">
             <input type="checkbox" defaultChecked />
             <span className="slider"></span>
@@ -52,104 +49,101 @@ const SettingsPage = () => {
 
         {/* Recovery Options */}
         <section className="settings-card">
-          <h2>Recovery Options</h2>
+          <h2>{t("recovery_options")}</h2>
           <div className="recovery-grid">
-            <input type="email" placeholder="name@domain.com" />
-            <input type="tel" placeholder="+1 555 0100" />
-            <button className="btn">Save recovery</button>
+            <input type="email" placeholder={t("email_placeholder")} />
+            <input type="tel" placeholder={t("phone_placeholder")} />
+            <button className="btn">{t("save_recovery")}</button>
           </div>
         </section>
 
         {/* Trusted Devices */}
         <section className="settings-card">
-          <h2>Trusted Devices</h2>
+          <h2>{t("trusted_devices")}</h2>
           <table className="device-table">
             <thead>
               <tr>
-                <th>Device</th>
-                <th>Last Seen</th>
-                <th>Action</th>
+                <th>{t("device")}</th>
+                <th>{t("last_seen")}</th>
+                <th>{t("action")}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Chrome on MacBook Pro</td>
-                <td>2 hours ago</td>
-                <td><button className="btn-remove">Remove</button></td>
+                <td>2 {t("hours_ago")}</td>
+                <td><button className="btn-remove">{t("remove")}</button></td>
               </tr>
               <tr>
                 <td>iPhone 15 Pro</td>
-                <td>Yesterday</td>
-                <td><button className="btn-remove">Remove</button></td>
+                <td>{t("yesterday")}</td>
+                <td><button className="btn-remove">{t("remove")}</button></td>
               </tr>
             </tbody>
           </table>
-          <button className="btn">Add device</button>
+          <button className="btn">{t("add_device")}</button>
         </section>
 
         {/* Privacy Controls */}
         <section className="settings-card">
-          <h2>Privacy Controls</h2>
+          <h2>{t("privacy_controls")}</h2>
           <div className="privacy-controls">
-            <label>Reports visibility</label>
+            <label>{t("reports_visibility")}</label>
             <select>
-              <option>My Team</option>
-              <option>Everyone</option>
-              <option>Private</option>
+              <option>{t("my_team")}</option>
+              <option>{t("everyone")}</option>
+              <option>{t("private")}</option>
             </select>
 
-            <label>Blocked users</label>
+            <label>{t("blocked_users")}</label>
             <div className="blocked-list">
               <span className="blocked-user">spam_user</span>
             </div>
           </div>
         </section>
 
-         <div className="settings-card">
-      <h2>System Settings</h2>
-      <p className="subtitle">
-        Admin-only controls for roles, backups and versioning.
-      </p>
+        {/* System Settings */}
+        <div className="settings-card">
+          <h2>{t("system_settings")}</h2>
+          <p className="subtitle">{t("system_settings_desc")}</p>
 
-      {/* Manage user roles */}
-      <div className="section">
-        <h3>Manage user roles</h3>
-        <div className="role-row">
-          <span>Alice</span>
-          <select>
-            <option>Member</option>
-            <option>Admin</option>
-            <option>Viewer</option>
-          </select>
+          {/* Manage user roles */}
+          <div className="section">
+            <h3>{t("manage_user_roles")}</h3>
+            <div className="role-row">
+              <span>Alice</span>
+              <select>
+                <option>{t("member")}</option>
+                <option>{t("admin")}</option>
+                <option>{t("viewer")}</option>
+              </select>
+            </div>
+            <div className="role-row">
+              <span>Charlie</span>
+              <select>
+                <option>{t("member")}</option>
+                <option>{t("admin")}</option>
+                <option>{t("viewer")}</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Backup & restore */}
+          <div className="section">
+            <h3>{t("data_backup_restore")}</h3>
+            <button className="btn primary">{t("backup_now")}</button>
+            <button className="btn secondary">{t("restore")}</button>
+          </div>
+
+          {/* App version */}
+          <div className="section version">
+            <h3>{t("app_version")}</h3>
+            <p>{t("version_number")}</p>
+          </div>
         </div>
-        <div className="role-row">
-          <span>Charlie</span>
-          <select>
-            <option>Member</option>
-            <option>Admin</option>
-            <option>Viewer</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Backup & restore */}
-      <div className="section">
-        <h3>Data backup & restore</h3>
-        <button className="btn primary">Backup now</button>
-        <button className="btn secondary">Restore</button>
-      </div>
-
-      {/* App version */}
-      <div className="section version">
-        <h3>App version</h3>
-        <p>v1.0.0 • Up to date</p>
-      </div>
-    </div>
-
       </main>
     </div>
   );
 };
 
 export default SettingsPage;
-

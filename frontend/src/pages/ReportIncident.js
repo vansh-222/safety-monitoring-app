@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import "./ReportIncident.css";
+import { useTranslation } from "react-i18next";
 
 const ReportIncident = () => {
   const [form, setForm] = useState({
@@ -14,6 +15,7 @@ const ReportIncident = () => {
     evidence: null,
   });
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -39,19 +41,16 @@ const ReportIncident = () => {
           lng: parseFloat(form.lng),
         })
       );
-      if (form.evidence) {
-        formData.append("evidence", form.evidence);
-      }
+      if (form.evidence) formData.append("evidence", form.evidence);
 
       await api.post("/api/incidents", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Incident reported successfully");
+      alert(t("report_success"));
       navigate("/dashboard");
     } catch (err) {
-      const msg =
-        err?.response?.data?.message || err.message || "Failed to report";
+      const msg = err?.response?.data?.message || err.message || t("report_fail");
       alert(msg);
     }
   };
@@ -59,31 +58,31 @@ const ReportIncident = () => {
   return (
     <div className="admin-layout">
       {/* Sidebar */}
-    <aside className="sidebar">
-  <h2 className="logo">SafetyApp</h2>
-  <ul className="menu">
-    <li className="active">Dashboard</li>
-    <li onClick={() => navigate("/report")}>Report Incident</li>
-    <li>Live News</li>
-    <li>Safe Routes</li>
-    <li onClick={() => navigate("/sos")}>Emergency Contacts</li>
-    <li onClick={() => navigate("/settings")}>Settings</li>  {/* ✅ Updated */}
-    <li onClick={() => navigate("/login")}>Logout</li>
-  </ul>
-</aside>
+      <aside className="sidebar">
+        <h2 className="logo">Safion</h2>
+        <ul className="menu">
+          <li className="active">{t("dashboard")}</li>
+          <li onClick={() => navigate("/report")}>{t("report_incident")}</li>
+          <li>{t("live_news")}</li>
+          <li>{t("safe_routes")}</li>
+          <li onClick={() => navigate("/sos")}>{t("emergency_contacts")}</li>
+          <li onClick={() => navigate("/settings")}>{t("settings")}</li>
+          <li onClick={() => navigate("/login")}>{t("logout")}</li>
+        </ul>
+      </aside>
 
       {/* Main Content */}
       <div className="admin-content">
-        <h2 className="report-title">Report Incident</h2>
+        <h2 className="report-title">{t("report_incident")}</h2>
         <form className="report-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Title</label>
+            <label>{t("title")}</label>
             <input
               type="text"
               name="title"
               value={form.title}
               onChange={handleChange}
-              placeholder="Concise incident title"
+              placeholder={t("title_placeholder")}
               className="form-input"
               required
             />
@@ -91,7 +90,7 @@ const ReportIncident = () => {
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Location (Latitude)</label>
+              <label>{t("lat")}</label>
               <input
                 name="lat"
                 value={form.lat}
@@ -102,7 +101,7 @@ const ReportIncident = () => {
               />
             </div>
             <div className="form-group half">
-              <label>Location (Longitude)</label>
+              <label>{t("lng")}</label>
               <input
                 name="lng"
                 value={form.lng}
@@ -116,7 +115,7 @@ const ReportIncident = () => {
 
           <div className="form-row">
             <div className="form-group half">
-              <label>Category</label>
+              <label>{t("category")}</label>
               <select
                 name="type"
                 value={form.type}
@@ -124,15 +123,15 @@ const ReportIncident = () => {
                 className="form-input"
                 required
               >
-                <option value="theft">Theft</option>
-                <option value="harassment">Harassment</option>
-                <option value="accident">Accident</option>
-                <option value="fire">Fire</option>
-                <option value="flood">Flood</option>
+                <option value="theft">{t("theft")}</option>
+                <option value="harassment">{t("harassment")}</option>
+                <option value="accident">{t("accident")}</option>
+                <option value="fire">{t("fire")}</option>
+                <option value="flood">{t("flood")}</option>
               </select>
             </div>
             <div className="form-group half">
-              <label>Date & Time</label>
+              <label>{t("date_time")}</label>
               <input
                 type="datetime-local"
                 name="dateTime"
@@ -145,7 +144,7 @@ const ReportIncident = () => {
           </div>
 
           <div className="form-group">
-            <label>Description</label>
+            <label>{t("description")}</label>
             <textarea
               name="description"
               value={form.description}
@@ -153,12 +152,12 @@ const ReportIncident = () => {
               required
               rows={5}
               className="form-input"
-              placeholder="Provide details about the incident"
+              placeholder={t("description_placeholder")}
             />
           </div>
 
           <div className="form-group">
-            <label>Evidence (Image/Video)</label>
+            <label>{t("evidence")}</label>
             <input
               type="file"
               name="evidence"
@@ -170,14 +169,14 @@ const ReportIncident = () => {
 
           <div className="form-actions">
             <button type="submit" className="btn-primary">
-              Submit Report
+              {t("submit_report")}
             </button>
             <button
               type="button"
               className="btn-secondary"
               onClick={() => navigate("/dashboard")}
             >
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         </form>
